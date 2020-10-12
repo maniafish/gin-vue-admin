@@ -866,6 +866,30 @@
                 }
             }
         },
+        "/email/emailTest": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "system"
+                ],
+                "summary": "发送测试邮件",
+                "responses": {
+                    "200": {
+                        "description": "{\"success\":true,\"data\":{},\"msg\":\"返回成功\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/fileUploadAndDownload/breakpointContinue": {
             "post": {
                 "security": [
@@ -2352,6 +2376,44 @@
                 }
             }
         },
+        "/user/setUserInfo": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SysUser"
+                ],
+                "summary": "删除用户",
+                "parameters": [
+                    {
+                        "description": "删除用户",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SysUser"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"success\":true,\"data\":{},\"msg\":\"修改成功\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/workflow/createWorkFlow": {
             "post": {
                 "produces": [
@@ -2406,6 +2468,32 @@
                 }
             }
         },
+        "config.Email": {
+            "type": "object",
+            "properties": {
+                "emailFrom": {
+                    "type": "string"
+                },
+                "emailHost": {
+                    "type": "string"
+                },
+                "emailIsSSL": {
+                    "type": "boolean"
+                },
+                "emailNickname": {
+                    "type": "string"
+                },
+                "emailPort": {
+                    "type": "integer"
+                },
+                "emailSecret": {
+                    "type": "string"
+                },
+                "emailTo": {
+                    "type": "string"
+                }
+            }
+        },
         "config.JWT": {
             "type": "object",
             "properties": {
@@ -2417,31 +2505,11 @@
         "config.LocalUpload": {
             "type": "object",
             "properties": {
-                "avatarPath": {
-                    "type": "string"
-                },
                 "filePath": {
                     "type": "string"
                 },
                 "local": {
                     "type": "boolean"
-                }
-            }
-        },
-        "config.Log": {
-            "type": "object",
-            "properties": {
-                "file": {
-                    "type": "string"
-                },
-                "logFile": {
-                    "type": "boolean"
-                },
-                "prefix": {
-                    "type": "string"
-                },
-                "stdout": {
-                    "type": "string"
                 }
             }
         },
@@ -2468,6 +2536,38 @@
                 },
                 "path": {
                     "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "config.Postgresql": {
+            "type": "object",
+            "properties": {
+                "config": {
+                    "type": "string"
+                },
+                "dbname": {
+                    "type": "string"
+                },
+                "logger": {
+                    "type": "boolean"
+                },
+                "maxIdleConns": {
+                    "type": "integer"
+                },
+                "maxOpenConns": {
+                    "type": "integer"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "string"
+                },
+                "preferSimpleProtocol": {
+                    "type": "boolean"
                 },
                 "username": {
                     "type": "string"
@@ -2516,6 +2616,10 @@
                     "type": "object",
                     "$ref": "#/definitions/config.Casbin"
                 },
+                "email": {
+                    "type": "object",
+                    "$ref": "#/definitions/config.Email"
+                },
                 "jwt": {
                     "type": "object",
                     "$ref": "#/definitions/config.JWT"
@@ -2524,13 +2628,13 @@
                     "type": "object",
                     "$ref": "#/definitions/config.LocalUpload"
                 },
-                "log": {
-                    "type": "object",
-                    "$ref": "#/definitions/config.Log"
-                },
                 "mysql": {
                     "type": "object",
                     "$ref": "#/definitions/config.Mysql"
+                },
+                "postgresql": {
+                    "type": "object",
+                    "$ref": "#/definitions/config.Postgresql"
                 },
                 "qiniu": {
                     "type": "object",
@@ -2544,20 +2648,51 @@
                     "type": "object",
                     "$ref": "#/definitions/config.Sqlite"
                 },
+                "sqlserver": {
+                    "type": "object",
+                    "$ref": "#/definitions/config.Sqlserver"
+                },
                 "system": {
                     "type": "object",
                     "$ref": "#/definitions/config.System"
+                },
+                "zap": {
+                    "type": "object",
+                    "$ref": "#/definitions/config.Zap"
                 }
             }
         },
         "config.Sqlite": {
             "type": "object",
             "properties": {
-                "config": {
+                "logger": {
+                    "type": "boolean"
+                },
+                "maxIdleConns": {
+                    "type": "integer"
+                },
+                "maxOpenConns": {
+                    "type": "integer"
+                },
+                "path": {
+                    "type": "string"
+                }
+            }
+        },
+        "config.Sqlserver": {
+            "type": "object",
+            "properties": {
+                "dbname": {
                     "type": "string"
                 },
-                "logMode": {
+                "logger": {
                     "type": "boolean"
+                },
+                "maxIdleConns": {
+                    "type": "integer"
+                },
+                "maxOpenConns": {
+                    "type": "integer"
                 },
                 "password": {
                     "type": "string"
@@ -2582,8 +2717,43 @@
                 "env": {
                     "type": "string"
                 },
+                "needInitData": {
+                    "type": "boolean"
+                },
                 "useMultipoint": {
                     "type": "boolean"
+                }
+            }
+        },
+        "config.Zap": {
+            "type": "object",
+            "properties": {
+                "director": {
+                    "type": "string"
+                },
+                "encodeLevel": {
+                    "type": "string"
+                },
+                "format": {
+                    "type": "string"
+                },
+                "level": {
+                    "type": "string"
+                },
+                "linkName": {
+                    "type": "string"
+                },
+                "logInConsole": {
+                    "type": "boolean"
+                },
+                "prefix": {
+                    "type": "string"
+                },
+                "showLine": {
+                    "type": "boolean"
+                },
+                "stacktraceKey": {
+                    "type": "string"
                 }
             }
         },
@@ -2954,7 +3124,7 @@
                     "description": "是否是完结流节点",
                     "type": "boolean"
                 },
-                "isStrat": {
+                "isStart": {
                     "description": "是否是开始流节点",
                     "type": "boolean"
                 },

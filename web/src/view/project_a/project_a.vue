@@ -91,13 +91,13 @@
     <el-dialog :before-close="closeDialog" :visible.sync="dialogFormVisible" title="弹窗操作">
       <el-row :gutter="15">
         <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
-          <el-col :span="24">
+          <el-col :span="12">
             <el-form-item label="姓名" prop="name">
-              <el-input v-model="formData.name" placeholder="请输入姓名" clearable :style="{width: '100%'}">
+              <el-input v-model="formData.name" placeholder="请输入单行文本姓名" clearable :style="{width: '100%'}">
               </el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="11">
+          <el-col :span="24">
             <el-form-item label="年龄" prop="age">
               <el-input-number v-model="formData.age" placeholder="年龄"></el-input-number>
             </el-form-item>
@@ -142,36 +142,16 @@ export default {
       visible: false,
       type: "",
       deleteVisible: false,
-      multipleSelection: [],
-      formData: {
-        name: undefined,
-        age: undefined,
-        male: 0,
+      multipleSelection: [],formData: {
+        name:null,male:null,age:null,
       },
-      rules: {
-        name: [{
-          required: true,
-          message: '请输入姓名',
-          trigger: 'blur'
-        }],
-        age: [{
-          required: true,
-          message: '年龄',
-          trigger: 'blur'
-        }],
-        male: [{
-          required: true,
-          message: '性别不能为空',
-          trigger: 'change'
-        }],
-      },
-      maleOptions: [{
-        "label": "男",
-        "value": 1
-      }, {
-        "label": "女",
-        "value": 0
-      }],
+	  maleOptions: [{
+	    "label": "男",
+	    "value": true
+	  }, {
+	    "label": "女",
+	    "value": false
+	  }],
     };
   },
   filters: {
